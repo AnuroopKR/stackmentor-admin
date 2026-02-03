@@ -1,7 +1,9 @@
 "use client";
 
+import MongodbCategoryForm from "@/components/forms/MongodbCategoryForm";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { MdDescription } from "react-icons/md";
 
 type Exercise = {
   title: string;
@@ -29,95 +31,17 @@ export default function ExercisesAdminPage() {
     },
   ]);
 
-  const [form, setForm] = useState({
-    title: "",
-    topic: "",
-    difficulty: "Beginner",
-    description: "",
-  });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-  ) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleCreate = () => {
-    if (!form.title) return;
-
-    const slug = form.title.toLowerCase().replace(/\s+/g, "-");
-
-    setExercises([
-      ...exercises,
-      {
-        ...form,
-        slug,
-      },
-    ]);
-
-    setForm({
-      title: "",
-      topic: "",
-      difficulty: "Beginner",
-      description: "",
-    });
-  };
+  useEffect(()=>{
+    console.log(exercises)
+  },[exercises])
 
   return (
     <main className="min-h-screen bg-[#f6fbf7] py-16">
       <div className="max-w-6xl mx-auto px-6 space-y-16">
 
         {/* CREATE EXERCISE */}
-        <section className="bg-white rounded-2xl border border-green-100 shadow p-8">
-          <h1 className="text-3xl font-bold text-green-700 mb-6">
-            Create Exercise
-          </h1>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            <input
-              name="title"
-              value={form.title}
-              onChange={handleChange}
-              placeholder="Exercise Title"
-              className="border border-green-200 rounded-xl px-4 py-3"
-            />
-
-            <input
-              name="topic"
-              value={form.topic}
-              onChange={handleChange}
-              placeholder="Topic (JavaScript / MongoDB)"
-              className="border border-green-200 rounded-xl px-4 py-3"
-            />
-
-            <select
-              name="difficulty"
-              value={form.difficulty}
-              onChange={handleChange}
-              className="border border-green-200 rounded-xl px-4 py-3"
-            >
-              <option>Beginner</option>
-              <option>Intermediate</option>
-              <option>Advanced</option>
-            </select>
-
-            <textarea
-              name="description"
-              value={form.description}
-              onChange={handleChange}
-              placeholder="Exercise Description"
-              rows={3}
-              className="border border-green-200 rounded-xl px-4 py-3 md:col-span-2"
-            />
-
-            <button
-              onClick={handleCreate}
-              className="md:col-span-2 bg-green-600 text-white py-3 rounded-xl font-semibold hover:bg-green-700 transition"
-            >
-              Create Exercise
-            </button>
-          </div>
-        </section>
+        <MongodbCategoryForm/>
 
         {/* LIST EXERCISES */}
         <section>
