@@ -49,7 +49,7 @@ export function AppSidebar() {
         {/* Hide title when collapsed */}
         {state === "expanded" && (
           <div className="text-md font-semibold text-green-800">
-            My Dashboard
+            Dashboard
           </div>
         )}
       </SidebarHeader>

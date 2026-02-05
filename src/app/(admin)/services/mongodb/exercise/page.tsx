@@ -1,9 +1,7 @@
-"use client";
+
 
 import MongodbCategoryForm from "@/components/forms/MongodbCategoryForm";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { MdDescription } from "react-icons/md";
 
 type Exercise = {
   title: string;
@@ -13,28 +11,36 @@ type Exercise = {
   description: string;
 };
 
-export default function ExercisesAdminPage() {
-  const [exercises, setExercises] = useState<Exercise[]>([
-    {
-      title: "JavaScript Variables",
-      slug: "javascript-variables",
-      topic: "JavaScript",
-      difficulty: "Beginner",
-      description: "Learn how variables work in JavaScript.",
-    },
-    {
-      title: "MongoDB Find Queries",
-      slug: "mongodb-find-queries",
-      topic: "MongoDB",
-      difficulty: "Beginner",
-      description: "Practice MongoDB find queries.",
-    },
-  ]);
+export default async function ExercisesAdminPage() {
 
+ let data: Exercise[] = [];
 
-  useEffect(()=>{
-    console.log(exercises)
-  },[exercises])
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/get-category`,
+      {
+        credentials: "include",
+        cache: "no-store",
+      }
+    );
+
+    const jsonResponse = await res.json();
+
+    if (!res.ok) {
+      console.error(jsonResponse.message || "Server Error");
+      // Use return here to stop execution, but don't put code directly after it
+      return []; 
+    }
+
+    // Assign the value to our scoped variable
+    data = jsonResponse;
+    console.log("Categories:", data);
+
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Network Error:", error.message);
+    }
+  }
 
   return (
     <main className="min-h-screen bg-[#f6fbf7] py-16">
@@ -50,7 +56,7 @@ export default function ExercisesAdminPage() {
           </h2>
 
           <div className="grid md:grid-cols-2 gap-6">
-            {exercises.map((ex, index) => (
+            {data&& data.map((ex:Exercise, index:number) => (
                 
               <div
                 key={index}

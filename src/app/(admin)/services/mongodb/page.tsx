@@ -21,7 +21,7 @@ const Page = () => {
 
           {/* CREATE COLLECTION */}
           <Link
-            href="/services/mongodb/add-db"
+            href="/services/mongodb/database"
             className="group bg-white border border-green-100 rounded-2xl p-8 shadow-sm hover:shadow-lg transition"
           >
             <div className="flex items-center gap-4 mb-4">
